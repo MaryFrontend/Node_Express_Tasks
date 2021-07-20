@@ -1,12 +1,8 @@
 const express = require('express');
-
 const app = express();
-const jsonParser = express.json();
+const taskRouter = require('./tasks/tasks.controller');
 
-app.get('/',function(req,res){
-    res.status(200);
-    res.send("<h1>Some message</h2>");
-});
+app.use("/tasks", taskRouter);
 
 module.exports = app;
 

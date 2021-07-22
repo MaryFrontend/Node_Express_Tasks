@@ -29,10 +29,8 @@ const putOneTask = async(id,title, description) => {
 
 const deleteOneTask = async (id) => {
     const task = getOneTask(id);
-    return task;
+    const deleteTask = tasks.splice(id - 1 , 1);
+    return deleteTask;
 }
 
-module.exports = getAll;
-module.exports = getOneTask;
-module.exports = putOneTask;
-module.exports = deleteOneTask;
+module.exports = {getAll, getOneTask, putOneTask, deleteOneTask};

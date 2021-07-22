@@ -1,9 +1,6 @@
 const express = require('express');
 const bodyParser = require("body-parser");
-const getAll = require("./tasks.service");
-const getOneTask = require("./tasks.service");
-const putOneTask = require('./tasks.service');
-const deleteOneTask = require('./tasks.service');
+const {getAll ,getOneTask, putOneTask, deleteOneTask} = require("./tasks.service");
 
 const app = express();
 const jsonParser = express.json();
@@ -30,7 +27,7 @@ taskRouter.put('/:Id',jsonParser, function(req,res){
 });
 
 taskRouter.delete('/:Id',jsonParser, function(req,res){
-    deleteOneTask(req.params.Id);
+    deleteOneTask(parseInt(req.params.Id));
     res.status(200).send("Success");
 });
 

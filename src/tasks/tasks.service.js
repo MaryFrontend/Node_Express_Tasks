@@ -10,27 +10,31 @@ const getAll = async () => {
     return tasks;
 };
 
-const getOneTask = async (id) => {
-    for (let task of tasks){
-        if(task.id == id){
-            console.log(task);
-            return task;
-        };
-    };
+const getTaskById = async (id) => {
+    let taskById = tasks.find(task => task.id == id);
+    return taskById;
 };
 
 const putOneTask = async(id,title, description) => {
-    const task = getOneTask(id);
-    task.title = title;
-    task.description =  description;
-    console.log(task);
-    return task;
+    const task = await getTaskById(id);
+    if(task){
+        task.title = title;
+        task.description =  description;
+        return task;
+    } else{
+        return false;
+    }   
 };
 
 const deleteOneTask = async (id) => {
-    const task = getOneTask(id);
-    const deleteTask = tasks.splice(id - 1 , 1);
-    return deleteTask;
+    const task =await getTaskById(id);
+    if(task){
+        const deleteTask = tasks.splice(id - 1 , 1);       
+        await getTaskById(id);
+        if(!await getTaskById(id)) return deleteTask;
+    } else{
+        return false;
+    }
 }
 
-module.exports = {getAll, getOneTask, putOneTask, deleteOneTask};
+module.exports = {getAll, getTaskById, putOneTask, deleteOneTask};

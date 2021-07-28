@@ -5,32 +5,41 @@ const tasks = [
     {id: 4, title: 'element', description: 'fourth el'}
 ];
 
-const getAll = async () => {
+const getTasks = async () => {
     console.log(tasks);
-    return tasks;
+    return tasks; 
 };
 
-const getOneTask = async (id) => {
-    for (let task of tasks){
-        if(task.id == id){
-            console.log(task);
-            return task;
-        };
-    };
+const getTaskById = async (id) => {
+    let taskById = tasks.find(task => task.id == id);
+    return taskById;
 };
 
-const putOneTask = async(id,title, description) => {
-    const task = getOneTask(id);
-    task.title = title;
-    task.description =  description;
-    console.log(task);
+const createTask = async (task) => {
+    tasks.push(task);
     return task;
-};
-
-const deleteOneTask = async (id) => {
-    const task = getOneTask(id);
-    const deleteTask = tasks.splice(id - 1 , 1);
-    return deleteTask;
 }
 
-module.exports = {getAll, getOneTask, putOneTask, deleteOneTask};
+const updateTask = async (id, title, description) => {
+    const task = await getTaskById(id);
+    if (task) {
+        task.title = title;
+        task.description =  description;
+        return task;
+    } else {
+        return false;
+    }   
+};
+
+const deleteTask = async (id) => {
+    const task =await getTaskById(id);
+    if (task) {
+        const delete_Task = tasks.splice(id - 1 , 1);       
+        await getTaskById(id);
+        if(!await getTaskById(id)) return delete_Task;
+    } else {
+        return false;
+    }
+}
+
+module.exports = {getTasks, getTaskById, createTask, updateTask, deleteTask};

@@ -1,34 +1,73 @@
 const express = require('express');
-const bodyParser = require("body-parser");
-const {getAll ,getOneTask, putOneTask, deleteOneTask} = require("./tasks.service");
+const {getTasks, getTaskById, createTask, updateTask, deleteTask} = require('./tasks.service');
 
-const app = express();
-const jsonParser = express.json();
 const taskRouter = express.Router();
 
-
-taskRouter.get("/",function(req,res){
-    getAll();
-    res.status(200).send("Success");
+taskRouter.get('/', async (req,res) => {
+    try{
+        const tasks = await getTasks();
+        if (!tasks) {
+            throw new Error;
+        }
+        return res.status(200).send('Success');
+    } catch(e) {
+        return res.status(404).send('Tasks did not found');
+    }
 });
-taskRouter.get("/:Id", function(req,res){
-    res.status(200).send("Success");
-    console.log(`Id:  ${req.params.Id}`);
-    getOneTask(req.params.Id);
+
+taskRouter.get('/:id', async (req, res) => { 
+    const {id} = req.params;
+    try{ 
+        const task = await getTaskById(id);
+        if (!task) {
+            throw new Error;
+        }
+        return res.status(200).json(task); 
+    } catch(e) {
+        return res.status(404).send(`Task with id: ${id} not found`);
+    }
 });
 
-taskRouter.post('/', jsonParser, function(req,res){
-    console.log('Request.body: ',req.body);
-    res.status(200).send("Success");
+taskRouter.post('/', async (req,res) => { 
+    try{
+        const task = req.body;
+        const create_Task = await createTask(task);
+        if (!create_Task) {
+            throw new Error;
+        }
+        return res.status(200).json(req.body);
+    } catch(e) {
+        return res.status(404).send('A new task did not created');
+    }
 }); 
-taskRouter.put('/:Id',jsonParser, function(req,res){
-    putOneTask(req.params.Id,req.body.title,req.body.discription);
-    res.status(200).send("Success");
+
+taskRouter.put('/:id', async (req,res) => {
+    const {id} = req.params;
+    try{
+        const {title,discription } = req.body;
+        const task = await updateTask(id, title, discription);
+        console.log('putTack: ' + task);
+        if (!task) {
+            throw new Error;
+        }
+        return res.status(200).json(task);
+    } catch(e) {
+        return res.status(404).send(`Task with id: ${id} not found`);
+    }
 });
 
-taskRouter.delete('/:Id',jsonParser, function(req,res){
-    deleteOneTask(parseInt(req.params.Id));
-    res.status(200).send("Success");
+taskRouter.delete('/:id', async (req,res) => {
+    const {id} = req.params;
+    try{
+        const task = await deleteTask(parseInt(id));
+        console.log('deleteTask: ' + task);
+        if (!task) {
+            throw new Error;
+        }
+        return res.status(200).json(task);
+    } catch(e) {
+        return res.status(404).send(`Task with id: ${id} not found`);
+    }
 });
 
 module.exports = taskRouter;

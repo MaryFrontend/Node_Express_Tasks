@@ -5,9 +5,9 @@ const tasks = [
     {id: 4, title: 'element', description: 'fourth el'}
 ];
 
-const getAll = async () => {
+const getTasks = async () => {
     console.log(tasks);
-    return tasks;
+    return tasks; 
 };
 
 const getTaskById = async (id) => {
@@ -15,26 +15,26 @@ const getTaskById = async (id) => {
     return taskById;
 };
 
-const putOneTask = async(id,title, description) => {
+const updateTask = async (id, title, description) => {
     const task = await getTaskById(id);
-    if(task){
+    if (task) {
         task.title = title;
         task.description =  description;
         return task;
-    } else{
+    } else {
         return false;
     }   
 };
 
-const deleteOneTask = async (id) => {
+const deleteTask = async (id) => {
     const task =await getTaskById(id);
-    if(task){
-        const deleteTask = tasks.splice(id - 1 , 1);       
+    if (task) {
+        const delete_Task = tasks.splice(id - 1 , 1);       
         await getTaskById(id);
-        if(!await getTaskById(id)) return deleteTask;
-    } else{
+        if(!await getTaskById(id)) return delete_Task;
+    } else {
         return false;
     }
 }
 
-module.exports = {getAll, getTaskById, putOneTask, deleteOneTask};
+module.exports = {getTasks, getTaskById, updateTask, deleteTask};

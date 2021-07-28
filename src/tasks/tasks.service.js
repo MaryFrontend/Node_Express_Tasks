@@ -15,6 +15,16 @@ const getTaskById = async (id) => {
     return taskById;
 };
 
+const createTask = async (task) => {
+    console.log(task);
+    const create_Task = tasks.push(task);
+    if(create_Task){
+        return create_Task;
+    } else {
+        return false;
+    }
+}
+
 const updateTask = async (id, title, description) => {
     const task = await getTaskById(id);
     if (task) {
@@ -37,4 +47,4 @@ const deleteTask = async (id) => {
     }
 }
 
-module.exports = {getTasks, getTaskById, updateTask, deleteTask};
+module.exports = {getTasks, getTaskById, createTask, updateTask, deleteTask};

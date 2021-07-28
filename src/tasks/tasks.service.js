@@ -16,13 +16,8 @@ const getTaskById = async (id) => {
 };
 
 const createTask = async (task) => {
-    console.log(task);
-    const create_Task = tasks.push(task);
-    if(create_Task){
-        return create_Task;
-    } else {
-        return false;
-    }
+    tasks.push(task);
+    return task;
 }
 
 const updateTask = async (id, title, description) => {

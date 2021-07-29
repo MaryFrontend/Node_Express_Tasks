@@ -1,5 +1,6 @@
 const express = require('express');
 const {getTasks, getTaskById, createTask, updateTask, deleteTask} = require('./tasks.service');
+const {validateTask} = require('../helpers/validation');
 
 const taskRouter = express.Router();
 
@@ -28,7 +29,7 @@ taskRouter.get('/:id', async (req, res) => {
     }
 });
 
-taskRouter.post('/', async (req,res) => { 
+taskRouter.post('/', validateTask,  async (req,res) => { 
     try{
         const task = req.body;
         const create_Task = await createTask(task);

@@ -1,4 +1,3 @@
-const { query } = require('express');
 const { pool, schema } = require('../database');
 
 const getAll = async() => {
@@ -7,8 +6,8 @@ const getAll = async() => {
         const result = await pool.query(queryString);
         console.log(result.rows);
         return result.rows;
-    } catch(e) {
-
+    } catch(error) {
+        throw error;
     }
 };
 const getById = async(id) => {
@@ -17,8 +16,8 @@ const getById = async(id) => {
         const taskById = await pool.query(queryString,[id]);
         console.log(taskById.rows);
         return taskById.rows;
-    } catch(e) {  
-
+    } catch(error) {  
+        throw error;
     }
 };
 const createOne = async(task) => {
@@ -71,7 +70,7 @@ const deleteOne = async(id) => {
         await client.query('COMMIT');
         if (taskResult.rowCount > 0 ) return task;
         else throw new Error(); 
-    } catch(e) {
+    } catch(error) {
         console.log(`Rolling back delete task for: ${id}, Error: ${error}`);
         await client.query('ROLLBACK');
         throw error;

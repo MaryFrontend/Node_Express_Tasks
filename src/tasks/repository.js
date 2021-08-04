@@ -14,8 +14,8 @@ const getById = async(id) => {
     const queryString = `SELECT * FROM ${schema}.task WHERE id = $1`;
     try {
         const taskById = await pool.query(queryString,[id]);
-        console.log(taskById.rows);
-        return taskById.rows;
+        console.log(taskById.rows[0]);
+        return taskById.rows[0];
     } catch(error) {  
         throw error;
     }
@@ -41,7 +41,6 @@ const createOne = async(task) => {
 };
 
 const updateOne = async (id, task) => {
-
     const { title, description } = task;
     const client = await pool.connect();
     try {
@@ -50,7 +49,7 @@ const updateOne = async (id, task) => {
       const taskResult = await client.query(queryString, [title, description]);
       console.log('taskResult',taskResult);
       await client.query('COMMIT');
-      console.log('111111', task);
+      console.log('updateTask', task);
       if (taskResult.rowCount > 0 ) return  task ;
         else throw new Error();
     } catch (error) {
@@ -65,10 +64,11 @@ const deleteOne = async(id) => {
     const client = await pool.connect();
     try{
         await client.query('BEGIN');
-        const queryString = `DELETE FROM task WHERE id = $1`;//?
+        const queryString = `DELETE FROM ${schema}.task WHERE id = $1`;
         const taskResult = await client.query(queryString,[id]);
+        console.log(taskResult);
         await client.query('COMMIT');
-        if (taskResult.rowCount > 0 ) return task;
+        if (taskResult.rowCount > 0) return true;
         else throw new Error(); 
     } catch(error) {
         console.log(`Rolling back delete task for: ${id}, Error: ${error}`);

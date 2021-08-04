@@ -1,28 +1,48 @@
 const { getAll, getById, createOne, updateOne, deleteOne} = require('./repository');
 
 const getTasks = async () => {
-    const tasks = await getAll();
-    return tasks; 
+    try {
+        const tasks = await getAll();
+        return tasks;
+    } catch(error) {
+        throw error;
+    }
 };
 
 const getTaskById = async (id) => {
-    const taskById = await getById(id);
-    return taskById;
+    try {
+        const taskById = await getById(id);
+        return taskById;
+    } catch(error) {
+        throw error;
+    }
 };
 
 const createTask = async (task) => {
-    const newTask = await createOne(task);
-    return newTask;
+    try {
+        const newTask = await createOne(task);
+        return newTask;
+    } catch(error) {
+        throw error;
+    } 
 };
 
 const updateTask = async (id, task) => {
-    const updateOneTask = await updateOne(id, task);
-    return updateOneTask;   
+    try {
+        const updateOneTask = await updateOne(id, task);
+        return updateOneTask;
+    } catch(error) {
+        throw error;
+    }
 };
 
 const deleteTask = async (id) => {
-    const deleteOneTask = await deleteOne(id);
-    return deleteOneTask;
+    try {
+        const deleteOneTask = await deleteOne(id);
+        return deleteOneTask;
+    } catch(error) {
+        throw error;
+    }
 };
 
 module.exports = {getTasks, getTaskById, createTask, updateTask, deleteTask};

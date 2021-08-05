@@ -62,11 +62,10 @@ taskRouter.delete('/:id', async (req,res) => {
     const {id} = req.params;
     try{
         const task = await deleteTask(parseInt(id));
-        console.log('deleteTask: ' + task);
         if (!task) {
             handleError(errorCustom, res);
         }
-        return buildResponse(res, 204, task);
+        return buildResponse(res, 204, `Task with id: ${id} deleted successful`);
     } catch(error) {
         return buildResponse(res, 404, `Task with id: ${id} not found`);
     }

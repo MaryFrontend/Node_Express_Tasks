@@ -2,8 +2,7 @@ const { getAll, getById, createOne, updateOne, deleteOne} = require('./repositor
 
 const getTasks = async () => {
     try {
-        const tasks = await getAll();
-        return tasks;
+        return await getAll();
     } catch(error) {
         throw error;
     }
@@ -11,8 +10,7 @@ const getTasks = async () => {
 
 const getTaskById = async (id) => {
     try {
-        const taskById = await getById(id);
-        return taskById;
+        return await getById(id);
     } catch(error) {
         throw error;
     }
@@ -20,8 +18,7 @@ const getTaskById = async (id) => {
 
 const createTask = async (task) => {
     try {
-        const newTask = await createOne(task);
-        return newTask;
+        return await createOne(task);
     } catch(error) {
         throw error;
     } 
@@ -29,8 +26,7 @@ const createTask = async (task) => {
 
 const updateTask = async (id, task) => {
     try {
-        const updateOneTask = await updateOne(id, task);
-        return updateOneTask;
+        return await updateOne(id, task);
     } catch(error) {
         throw error;
     }
@@ -38,8 +34,7 @@ const updateTask = async (id, task) => {
 
 const deleteTask = async (id) => {
     try {
-        const deleteOneTask = await deleteOne(id);
-        return deleteOneTask;
+        return await deleteOne(id);
     } catch(error) {
         throw error;
     }

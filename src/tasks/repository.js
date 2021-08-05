@@ -68,7 +68,7 @@ const deleteOne = async(id) => {
         const taskResult = await client.query(queryString,[id]);
         console.log(taskResult);
         await client.query('COMMIT');
-        if (taskResult.rowCount > 0) return true;
+        if (taskResult.rowCount > 0) return id;
         else throw new Error(); 
     } catch(error) {
         console.log(`Rolling back delete task for: ${id}, Error: ${error}`);

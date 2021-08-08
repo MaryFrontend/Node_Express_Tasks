@@ -1,16 +1,25 @@
 const { getAll, getById, createOne, updateOne, deleteOne} = require('./repository');
+const {ErrorHandler, handleError} = require('../helpers/error');
 
 const getTasks = async () => {
     try {
-        return await getAll();
+        const tasks = await getAll();
+        if (!tasks) {
+            throw new ErrorHandler(404, 'Tasks did not found');
+        }
+        return tasks;
     } catch(error) {
-        throw error;
+        throw error;//ошибка сервера (500)
     }
 };
 
 const getTaskById = async (id) => {
     try {
-        return await getById(id);
+        const task = await getById(id);
+        if (!task) {
+            throw new ErrorHandler(404, 'Task did not found');
+        }
+        return task;
     } catch(error) {
         throw error;
     }
@@ -18,7 +27,11 @@ const getTaskById = async (id) => {
 
 const createTask = async (task) => {
     try {
-        return await createOne(task);
+        const create = await createOne(task);
+        if (!create) {
+            throw new ErrorHandler(404, 'Task did not found');
+        }
+        return create;
     } catch(error) {
         throw error;
     } 
@@ -26,7 +39,11 @@ const createTask = async (task) => {
 
 const updateTask = async (id, task) => {
     try {
-        return await updateOne(id, task);
+        const update = await updateOne(id, task);
+        if (!update) {
+            throw new ErrorHandler(404, 'Task did not found');
+        }
+        return update;
     } catch(error) {
         throw error;
     }
@@ -34,7 +51,11 @@ const updateTask = async (id, task) => {
 
 const deleteTask = async (id) => {
     try {
-        return await deleteOne(id);
+        const task = await deleteOne(id);
+        if (!task) {
+            throw new ErrorHandler(404, 'Task did not found');
+        }
+        return task;
     } catch(error) {
         throw error;
     }

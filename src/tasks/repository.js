@@ -4,26 +4,25 @@ const getAll = async() => {
     const queryString = `SELECT * FROM ${schema}.task`; 
     try{
         const result = await pool.query(queryString);
-        console.log(result.rows);
         return result.rows;
     } catch(error) {
-        throw error;
+        console.log(`Exseption in repository.getAll: ${error.message}`);
+        return null;
     }
 };
 const getById = async(id) => {
     const queryString = `SELECT * FROM ${schema}.task WHERE id = $1`;
     try {
         const taskById = await pool.query(queryString,[id]);
-        console.log(taskById.rows[0]);
         return taskById.rows[0];
-    } catch(error) {  
-        throw error;
+    } catch(error) { 
+        console.log(`Exseption in repository.getById: ${error.message}`); 
+        return null;
     }
 };
 const createOne = async(task) => {
     const client = await pool.connect();
     const { title, description } = task;  
-    console.log('CreateOne', task);
     try{
         await client.query('BEGIN');
         const queryString = `INSERT INTO ${schema}.task (title, description) VALUES ($1, $2)`;
@@ -32,9 +31,9 @@ const createOne = async(task) => {
         if (taskResult.rowCount > 0 ) return task;
         else throw new Error();
     } catch(error) {
-        console.log(`Rolling back saveObj task for: ${task}, Error: ${error}`);
+        console.log(`Exseption in repository.createOne: ${error.message}`);
         await client.query('COMMIT');
-        throw error;
+        return null;
     } finally{
         client.release();
     } 
@@ -47,15 +46,13 @@ const updateOne = async (id, task) => {
       await client.query('BEGIN');
       const queryString =`UPDATE  ${schema}.task SET title = $1, description = $2 WHERE id = ${id}`;
       const taskResult = await client.query(queryString, [title, description]);
-      console.log('taskResult',taskResult);
       await client.query('COMMIT');
-      console.log('updateTask', task);
       if (taskResult.rowCount > 0 ) return  task ;
         else throw new Error();
     } catch (error) {
-      console.log(`Rolling back update task for: ${id}, ${task}, Error: ${error}`);
+      console.log(`Exseption in repository.updateOne: ${error.message}}`);
       await client.query('ROLLBACK');
-      throw error;
+      return null;
     } finally {
       client.release();
     }
@@ -66,14 +63,13 @@ const deleteOne = async(id) => {
         await client.query('BEGIN');
         const queryString = `DELETE FROM ${schema}.task WHERE id = $1`;
         const taskResult = await client.query(queryString,[id]);
-        console.log(taskResult);
         await client.query('COMMIT');
         if (taskResult.rowCount > 0) return id;
         else throw new Error(); 
     } catch(error) {
-        console.log(`Rolling back delete task for: ${id}, Error: ${error}`);
+        console.log(`Exseption in repository.delete: ${error.message}`);
         await client.query('ROLLBACK');
-        throw error;
+        return null;
     } finally {
         client.release();
     }

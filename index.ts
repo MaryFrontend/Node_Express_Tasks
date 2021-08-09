@@ -1,5 +1,4 @@
 import { app } from './src/app';
-
 import { config } from 'dotenv';
 
 config();

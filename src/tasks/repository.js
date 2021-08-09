@@ -6,7 +6,7 @@ const getAll = async() => {
         const result = await pool.query(queryString);
         return result.rows;
     } catch(error) {
-        console.log(`Exseption in repository.getAll: ${error.message}`);
+        console.log(`Exception in repository.getAll: ${error.message}`);
         return null;
     }
 };
@@ -16,7 +16,7 @@ const getById = async(id) => {
         const taskById = await pool.query(queryString,[id]);
         return taskById.rows[0];
     } catch(error) { 
-        console.log(`Exseption in repository.getById: ${error.message}`); 
+        console.log(`Exception in repository.getById: ${error.message}`); 
         return null;
     }
 };
@@ -29,9 +29,9 @@ const createOne = async(task) => {
         const taskResult = await client.query(queryString,[title, description]);     
         await client.query('COMMIT');
         if (taskResult.rowCount > 0 ) return task;
-        else throw new Error();
+        else throw new Error('Not Found');
     } catch(error) {
-        console.log(`Exseption in repository.createOne: ${error.message}`);
+        console.log(`Exception in repository.createOne: ${error.message}`);
         await client.query('COMMIT');
         return null;
     } finally{
@@ -47,10 +47,10 @@ const updateOne = async (id, task) => {
       const queryString =`UPDATE  ${schema}.task SET title = $1, description = $2 WHERE id = ${id}`;
       const taskResult = await client.query(queryString, [title, description]);
       await client.query('COMMIT');
-      if (taskResult.rowCount > 0 ) return  task ;
-        else throw new Error();
+      if (taskResult.rowCount > 0 ) return task;
+        else throw new Error('Not Found');
     } catch (error) {
-      console.log(`Exseption in repository.updateOne: ${error.message}}`);
+      console.log(`Exception in repository.updateOne: ${error.message}}`);
       await client.query('ROLLBACK');
       return null;
     } finally {
@@ -65,9 +65,9 @@ const deleteOne = async(id) => {
         const taskResult = await client.query(queryString,[id]);
         await client.query('COMMIT');
         if (taskResult.rowCount > 0) return id;
-        else throw new Error(); 
+        else throw new Error('Not Found '); 
     } catch(error) {
-        console.log(`Exseption in repository.delete: ${error.message}`);
+        console.log(`Exception in repository.delete: ${error.message}`);
         await client.query('ROLLBACK');
         return null;
     } finally {

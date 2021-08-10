@@ -8,15 +8,7 @@ console.log('Conflict here!');
 const taskRouter = express.Router();
 
 taskRouter.get('/', async (req,res) => {
-    try{
-        const tasks = await getTasks();
-        return buildResponse(res, 200, tasks); 
-    } catch(error) {
-        if (error instanceof ErrorHandler) {
-            return handleError(error, res);
-        }
-        return buildResponse(res, 500, 'Something get wrong');
-    }
+    console.log('Conflict here2!');
 });
 
 taskRouter.get('/:id', async (req, res) => { 

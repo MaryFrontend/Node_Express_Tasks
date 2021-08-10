@@ -50,7 +50,7 @@ const updateOne = async (id, task) => {
       if (taskResult.rowCount > 0 ) return task;
         else throw new Error('Not Found');
     } catch (error) {
-      console.log(`Exception in repository.updateOne: ${error.message}}`);
+      console.log(`Exception in repository.updateOne: ${error.message}`);
       await client.query('ROLLBACK');
       return null;
     } finally {

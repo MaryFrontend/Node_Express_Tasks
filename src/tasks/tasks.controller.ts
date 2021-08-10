@@ -1,12 +1,12 @@
-import express from 'express';
-import {getTasks, getTaskById, createTask, updateTask, deleteTask} from './tasks.service';
-import {validateTask} from '../helpers/validation';
-import {buildResponse} from '../helpers/response';
-import {ErrorHandler, handleError} from '../helpers/error';
+import express, { Response, Request } from 'express';
+import { getTasks, getTaskById, createTask, updateTask, deleteTask } from './tasks.service';
+import { validateTask } from '../helpers/validation';
+import { buildResponse } from '../helpers/response';
+import { ErrorHandler, handleError } from '../helpers/error';
 
 export const taskRouter = express.Router();
 
-taskRouter.get('/', async (req: express.Request, res: express.Response) => {
+taskRouter.get('/', async (req: Request, res: Response) => {
     try{
         const tasks = await getTasks();
         buildResponse(res, 200, tasks); 
@@ -18,7 +18,7 @@ taskRouter.get('/', async (req: express.Request, res: express.Response) => {
     }
 });
 
-taskRouter.get('/:id', async (req: express.Request, res: express.Response) => { 
+taskRouter.get('/:id', async (req: Request, res: Response) => { 
     const {id} = req.params;
     try{ 
         const task = await getTaskById(id);
@@ -31,7 +31,7 @@ taskRouter.get('/:id', async (req: express.Request, res: express.Response) => {
     }
 });
 
-taskRouter.post('/',validateTask, async (req: express.Request, res: express.Response) => { 
+taskRouter.post('/',validateTask, async (req: Request, res: Response) => { 
     try{
         const task = req.body;
         const create = await createTask(task);
@@ -44,7 +44,7 @@ taskRouter.post('/',validateTask, async (req: express.Request, res: express.Resp
     }
 }); 
 
-taskRouter.put('/:id', async (req: express.Request, res: express.Response) => {
+taskRouter.put('/:id', async (req: Request, res: Response) => {
     const {id} = req.params;
     try{
         const task = req.body; 
@@ -58,7 +58,7 @@ taskRouter.put('/:id', async (req: express.Request, res: express.Response) => {
     }
 });
 
-taskRouter.delete('/:id', async (req: express.Request, res: express.Response) => {
+taskRouter.delete('/:id', async (req: Request, res: Response) => {
     const {id} = req.params;
     try{
         const task = await deleteTask(parseInt(id));

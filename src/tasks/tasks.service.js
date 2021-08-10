@@ -1,5 +1,5 @@
 const { getAll, getById, createOne, updateOne, deleteOne} = require('./repository');
-const {ErrorHandler, handleError} = require('../helpers/error');
+const { ErrorHandler, handleError } = require('../helpers/error');
 
 const getTasks = async () => {
     try {

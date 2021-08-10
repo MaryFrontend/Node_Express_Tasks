@@ -4,11 +4,19 @@ const {validateTask} = require('../helpers/validation');
 const {buildResponse} = require('../helpers/response');
 const {ErrorHandler, handleError} = require('../helpers/error');
 
-console.log('Conflict here!');
+console.log('resolve');
 const taskRouter = express.Router();
 
 taskRouter.get('/', async (req,res) => {
-    console.log('Conflict here2!');
+    try{
+        const tasks = await getTasks();
+        return buildResponse(res, 200, tasks); 
+    } catch(error) {
+        if (error instanceof ErrorHandler) {
+            return handleError(error, res);
+        }
+        return buildResponse(res, 500, 'Something get wrong');
+    }
 });
 
 taskRouter.get('/:id', async (req, res) => { 

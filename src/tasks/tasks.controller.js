@@ -4,6 +4,7 @@ const {validateTask} = require('../helpers/validation');
 const {buildResponse} = require('../helpers/response');
 const {ErrorHandler, handleError} = require('../helpers/error');
 
+console.log('Conflict here!');
 const taskRouter = express.Router();
 
 taskRouter.get('/', async (req,res) => {

@@ -1,7 +1,7 @@
-const { getAll, getById, createOne, updateOne, deleteOne} = require('./repository');
-const { ErrorHandler, handleError } = require('../helpers/error');
+import { getAll, getById, createOne, updateOne, deleteOne} from './repository';
+import { ErrorHandler, handleError } from '../helpers/error';
 
-const getTasks = async () => {
+const getTasks = async (): Promise<Task[]> => {
     try {
         const tasks = await getAll();
         if (!tasks) {
@@ -13,7 +13,7 @@ const getTasks = async () => {
     }
 };
 
-const getTaskById = async (id) => {
+ const getTaskById = async (id: number): Promise<Task> => {
     try {
         const task = await getById(id);
         if (!task) {
@@ -25,7 +25,7 @@ const getTaskById = async (id) => {
     }
 };
 
-const createTask = async (task) => {
+const createTask = async (task: Task): Promise<Task> => {
     try {
         const create = await createOne(task);
         if (!create) {
@@ -37,7 +37,7 @@ const createTask = async (task) => {
     } 
 };
 
-const updateTask = async (id, task) => {
+const updateTask = async (id: number, task: Task): Promise<Task> => {
     try {
         const update = await updateOne(id, task);
         if (!update) {
@@ -49,7 +49,7 @@ const updateTask = async (id, task) => {
     }
 };
 
-const deleteTask = async (id) => {
+const deleteTask = async (id: number): Promise<number> => {
     try {
         const task = await deleteOne(id);
         if (!task) {
@@ -61,4 +61,4 @@ const deleteTask = async (id) => {
     }
 };
 
-module.exports = {getTasks, getTaskById, createTask, updateTask, deleteTask};
+export { getTasks, getTaskById, createTask, updateTask, deleteTask };

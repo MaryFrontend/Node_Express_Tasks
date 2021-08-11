@@ -1,6 +1,6 @@
-const { pool, schema } = require('../database');
+import { pool, schema } from '../database';
 
-const getAll = async() => {
+const getAll = async(): Promise<Task[] | null> => {
     const queryString = `SELECT * FROM ${schema}.task`; 
     try{
         const result = await pool.query(queryString);
@@ -10,7 +10,7 @@ const getAll = async() => {
         return null;
     }
 };
-const getById = async(id) => {
+const getById = async(id: number):Promise<Task | null>  => {
     const queryString = `SELECT * FROM ${schema}.task WHERE id = $1`;
     try {
         const taskById = await pool.query(queryString,[id]);
@@ -20,7 +20,7 @@ const getById = async(id) => {
         return null;
     }
 };
-const createOne = async(task) => {
+const createOne = async(task: Task): Promise<Task | null> => {
     const client = await pool.connect();
     const { title, description } = task;  
     try{
@@ -39,7 +39,7 @@ const createOne = async(task) => {
     } 
 };
 
-const updateOne = async (id, task) => {
+const updateOne = async (id: number, task: Task): Promise<Task | null> => {
     const { title, description } = task;
     const client = await pool.connect();
     try {
@@ -57,7 +57,7 @@ const updateOne = async (id, task) => {
       client.release();
     }
 };
-const deleteOne = async(id) => {
+const deleteOne = async(id: number): Promise<number | null> => {
     const client = await pool.connect();
     try{
         await client.query('BEGIN');
@@ -75,4 +75,4 @@ const deleteOne = async(id) => {
     }
 };
 
-module.exports = { getAll, getById, createOne, updateOne, deleteOne };
+export { getAll, getById, createOne, updateOne, deleteOne };

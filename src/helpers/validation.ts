@@ -1,6 +1,7 @@
-const { ErrorHandler } = require('../helpers/error');
+import { Response, Request, NextFunction } from 'express';
+import { ErrorHandler } from '../helpers/error';
 
-const validateTask = (req, res, next) => {
+export const validateTask = (req: Response, res: Request, next: NextFunction): void => {
     const { title, description } = req.body;
     if (!title || title === null || !description || description === null) {
       throw new ErrorHandler(404, 'Invalid req data');
@@ -8,4 +9,3 @@ const validateTask = (req, res, next) => {
     next();
 };
 
-module.exports = { validateTask }

@@ -4,5 +4,5 @@ import { config } from 'dotenv';
 config();
 
 app.listen(process.env.PORT, () => {
-    console.log('Server started');
+  console.log('Server started');
 });

@@ -7,7 +7,6 @@ class ErrorHandler extends Error {
       super(message);
       Object.setPrototypeOf(this, ErrorHandler.prototype);
       this.statusCode = statusCode;
-      
     }
 }
 

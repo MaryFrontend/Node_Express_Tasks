@@ -27,6 +27,7 @@ const createOne = async (task: Task): Promise<Task | null> => {
     await client.query('BEGIN');
     const queryString = `INSERT INTO ${schema}.task (title, description) VALUES ($1, $2)`;
     const taskResult = await client.query(queryString, [title, description]);
+    console.log('taskResult', taskResult);
     await client.query('COMMIT');
     if (taskResult.rowCount > 0) return task;
     else throw new Error('Not Found');

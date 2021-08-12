@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev:start": "nodemon",
-    "prettier": "prettier --write \"**/*.ts\""
+    "prettier": "prettier --write \"**/*.ts\"",
+    "lint": "eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -21,14 +22,22 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "dotenv": "^10.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "express": "^4.17.1",
     "pg": "^8.7.1",
     "prettier": "^2.3.2",
-    "ts-node": "^10.2.0",
-    "typescript": "^4.3.5"
+    "ts-node": "^10.2.0"
   },
   "devDependencies": {
     "@types/node": "^16.4.13",
-    "nodemon": "^2.0.12"
+    "@typescript-eslint/eslint-plugin": "^4.29.1",
+    "@typescript-eslint/parser": "^4.29.1",
+    "eslint": "^7.32.0",
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.12",
+    "typescript": "^4.3.5"
   }
 }

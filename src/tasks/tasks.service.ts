@@ -1,5 +1,5 @@
+import { ErrorHandler } from '../helpers/error';
 import { getAll, getById, createOne, updateOne, deleteOne } from './repository';
-import { ErrorHandler, handleError } from '../helpers/error';
 
 const getTasks = async (): Promise<Task[]> => {
   try {

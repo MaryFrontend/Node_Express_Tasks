@@ -1,8 +1,8 @@
 import express, { Response, Request } from 'express';
-import { getTasks, getTaskById, createTask, updateTask, deleteTask } from './tasks.service';
-import { validateTask } from '../helpers/validation';
-import { buildResponse } from '../helpers/response';
 import { ErrorHandler, handleError } from '../helpers/error';
+import { buildResponse } from '../helpers/response';
+import { validateTask } from '../helpers/validation';
+import { getTasks, getTaskById, createTask, updateTask, deleteTask } from './tasks.service';
 
 export const taskRouter = express.Router();
 
@@ -35,6 +35,7 @@ taskRouter.post('/', validateTask, async (req: Request, res: Response) => {
   try {
     const task = req.body;
     const create = await createTask(task);
+    console.log('create', create);
     buildResponse(res, 201, create);
   } catch (error) {
     if (error instanceof ErrorHandler) {
@@ -61,7 +62,7 @@ taskRouter.put('/:id', async (req: Request, res: Response) => {
 taskRouter.delete('/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const task = await deleteTask(parseInt(id));
+    await deleteTask(parseInt(id));
     buildResponse(res, 204, `Task with id: ${id} deleted successful`);
   } catch (error) {
     if (error instanceof ErrorHandler) {

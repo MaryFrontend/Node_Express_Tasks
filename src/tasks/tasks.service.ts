@@ -9,7 +9,7 @@ const getTasks = async (): Promise<Task[]> => {
     }
     return tasks;
   } catch (error) {
-    throw error; //ошибка сервера (500)
+    throw error;
   }
 };
 

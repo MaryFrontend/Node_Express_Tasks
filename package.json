@@ -6,7 +6,8 @@
   "scripts": {
     "dev:start": "nodemon",
     "prettier": "prettier --write \"**/*.ts\"",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/MaryFrontend/tasks#readme",
   "dependencies": {
+    "@types/jest": "^27.0.1",
     "body-parser": "^1.19.0",
     "dotenv": "^10.0.0",
     "eslint-config-prettier": "^8.3.0",
@@ -29,6 +31,7 @@
     "express": "^4.17.1",
     "pg": "^8.7.1",
     "prettier": "^2.3.2",
+    "ts-jest": "^27.0.4",
     "ts-node": "^10.2.0"
   },
   "devDependencies": {

@@ -32,7 +32,7 @@ const createOne = async (task: Task): Promise<Task | null> => {
     else throw new Error('Not Found');
   } catch (error) {
     console.log(`Exception in repository.createOne: ${error.message}`);
-    await client.query('COMMIT');
+    await client.query('ROLLBACK');
     return null;
   } finally {
     client.release();

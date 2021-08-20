@@ -17,7 +17,8 @@ interface CustomError {
 
 const handleError = (err: CustomError, res: Response): void => {
   const { statusCode, message } = err;
-  res.status(statusCode).json({
+  res.status(statusCode);
+  res.json({
     status: 'error',
     statusCode,
     message,

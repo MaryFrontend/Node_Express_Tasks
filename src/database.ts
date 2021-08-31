@@ -11,5 +11,6 @@ const pool = new Pool({
   database: process.env.DB,
 });
 const schema = process.env.DB_SCHEMA;
+const userSchema = process.env.DB_USER_SCHEMA;
 
-export { pool, schema };
+export { pool, schema, userSchema };

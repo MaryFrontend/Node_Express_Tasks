@@ -6,8 +6,7 @@ declare global {
     description: string;
   }
   interface User {
-    name: string;
-    login: string;
-    password: string;
+    username: string;
+    password?: string;
   }
 }

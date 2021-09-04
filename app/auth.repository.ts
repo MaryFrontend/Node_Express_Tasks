@@ -1,12 +1,12 @@
 import { pool, userSchema } from '../src/database';
 
-const searchUsername = async (username: string, password?: string): Promise<true | false> => {
+const searchUsername = async (user: User): Promise< User | false> => {
     const queryString = `SELECT * FROM ${userSchema}.user WHERE username = $1`;
     try {
-      await pool.query(queryString, [username]);
-      return true;
+      const oneUser = await pool.query(queryString, [user.username]);
+      return oneUser;
     } catch (error) {
-      console.log(`Exception in auth.repository: ${error.message}`);
+      //console.log(`Exception in auth.repository: ${error.message}`);
       return false;
     }
 };
@@ -22,7 +22,7 @@ const signupUser = async (user: User): Promise<User | false> => {
       if (taskResult.rowCount > 0) return user;
       else throw new Error('Not Found');
     } catch (error) {
-      console.log(`Exception in auth.repository: ${error.message}`);
+      //console.log(`Exception in auth.repository: ${error.message}`);
       await client.query('COMMIT');
       return false;
     } finally {

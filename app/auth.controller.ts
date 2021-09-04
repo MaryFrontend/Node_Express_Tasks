@@ -1,9 +1,13 @@
 import express, { Response, Request } from 'express';
-import bcrypt from 'bcryptjs';
+// import { compareSync } from 'bcryptjs';
 import { signup, search } from './auth.service';
 import { buildResponse } from '../src/helpers/response';
 import { ErrorHandler, handleError } from '../src/helpers/error';
-import { generateAccessToken } from '../src/helpers/generateToken';
+// import { generateAccessToken } from '../src/helpers/generateToken';
+import jwt from 'jsonwebtoken';
+import { v4 as uuidv4 } from 'uuid';
+// import { config } from 'dotenv';
+// import config from '../app/secret';
 
 export const apiRouter = express.Router();
 
@@ -28,24 +32,37 @@ apiRouter.post('/auth/signup', async (req: Request, res: Response) => {
 
 apiRouter.post('/auth/login', async (req: Request, res: Response) => {
   const { username, password } = req.body;
-  try {
-      const user = await search(username);
-      if (user) {
-        buildResponse(res, 200, `User ${username} is not found`);
-      }
-      // const validPassword = bcrypt.compareSync(password, user.password);
-      // if(!validPassword) {
-      //   buildResponse(res, 200, 'Incorrect password');
-      // }
-      const token = generateAccessToken(username);
-      return res.json({token});
-  } catch (error) {
-    if (error instanceof ErrorHandler) {
-      handleError(error, res);
-    }
-    buildResponse(res, 500, 'Something get wrong');
+  const user = await search(username);
+  if ( !user || password !== user.password) {
+    buildResponse(res, 200, 'Incorrect login or password');
+  }
+  const refreshToken = uuidv4();
+  req.body = {
+    token: jwt.signup({ username: username}, 'shared-secret'),//config.secret
+    refreshToken,
   }
 });
+
+
+
+  // try {
+  //     
+  //     if (user) {
+  //       buildResponse(res, 200, `User ${username} is not found`);
+  //     }
+  //     // const validPassword = bcrypt.compareSync(password, user.password);
+  //     // if(!validPassword) {
+  //     //   buildResponse(res, 200, 'Incorrect password');
+  //     // }
+  //     const token = generateAccessToken(username);
+  //     return res.json({token});
+  // } catch (error) {
+  //   if (error instanceof ErrorHandler) {
+  //     handleError(error, res);
+  //   }
+  //   buildResponse(res, 500, 'Something get wrong');
+  // }
+
 
 
   

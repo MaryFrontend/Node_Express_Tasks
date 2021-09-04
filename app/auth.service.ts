@@ -1,11 +1,11 @@
 import { ErrorHandler } from '../src/helpers/error';
 import { signupUser, searchUsername } from './auth.repository';
 
-const search = async (username: string): Promise<true | false> => {
+const search = async (user: User): Promise< User | false> => {
     try {
-      const user = await searchUsername(username);
-      if (user) {
-        return true;
+      const oneUser = await searchUsername(user);
+      if (oneUser) {
+        return oneUser;
       }
       return false;
     } catch (error) {

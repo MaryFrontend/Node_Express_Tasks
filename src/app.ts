@@ -17,7 +17,7 @@ app.get('/error', (_req: Request, _res: Response) => {
   throw new ErrorHandler(500, 'Internal server error');
 });
 
-app.use('/tasks', taskRouter, authMiddleware);
+app.use('/tasks', authMiddleware, taskRouter);
 app.use('/api', apiRouter);
 
 app.use((err, _req: Request, res: Response, _next: express.NextFunction) => {

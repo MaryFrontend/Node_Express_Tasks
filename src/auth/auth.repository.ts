@@ -1,6 +1,6 @@
 import { pool, userSchema } from '../database';
 
-const searchUsername = async (user: User): Promise<User | false> => {
+const searchLogin = async (user: User): Promise<User | false> => {
   const queryString = `SELECT * FROM ${userSchema}.user WHERE username = $1`;
   try {
     const oneUser = await pool.query(queryString, [user.username]);
@@ -30,4 +30,4 @@ const signupUser = async (user: User): Promise<User | false> => {
   }
 };
 
-export { signupUser, searchUsername };
+export { signupUser, searchLogin };

@@ -4,6 +4,23 @@ import jwt from 'jsonwebtoken';
 import config from './secret';
 import { signupUser, searchLogin } from './auth.repository';
 
+const signup = async (user: User): Promise< Boolean > => {
+  try {
+    const exist = await searchLogin(user);
+    if (!exist) {
+      user.password = bcrypt.hashSync(user.password, 8);
+      const create = await signupUser(user);
+      if (!create) {
+        throw new ErrorHandler(404, 'User is not registered!');
+      }
+      return true;
+    }
+    throw new ErrorHandler(404, 'User is not registered!');//
+  } catch (error) {
+    throw error;
+  }
+};
+
 const login = async (user: User): Promise<Object | false> => {
   try {
     const loginUser = await searchLogin(user);
@@ -27,16 +44,5 @@ const login = async (user: User): Promise<Object | false> => {
   }
 };
 
-const signup = async (user: User): Promise<User | false> => {
-  try {
-    const create = await signupUser(user);
-    if (!create) {
-      throw new ErrorHandler(404, 'User is not registered!');
-    }
-    return create;
-  } catch (error) {
-    throw error;
-  }
-};
 
 export { signup, login };

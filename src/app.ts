@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import express, { Response, Request } from 'express';
-import { apiRouter } from './auth/auth.controller';
+import { authRouter } from './auth/auth.controller';
 import { authMiddleware } from './helpers/authMiddleware';
 import { handleError, ErrorHandler } from './helpers/error';
 import { taskRouter } from './tasks/tasks.controller';
@@ -18,7 +18,7 @@ app.get('/error', (_req: Request, _res: Response) => {
 });
 
 app.use('/tasks', authMiddleware, taskRouter);
-app.use('/api', apiRouter);
+app.use('/auth', authRouter);
 
 app.use((err, _req: Request, res: Response, _next: express.NextFunction) => {
   handleError(err, res);

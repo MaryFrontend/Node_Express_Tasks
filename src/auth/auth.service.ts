@@ -33,7 +33,7 @@ const login = async (user: User): Promise<String | false> => {
       throw new ErrorHandler(404, 'Wrong password!');
     }
 
-    let token = jwt.sign({ foo: 'bar' }, config.secret, { algorithm: 'RS256'});
+    let token = jwt.sign({ id: user.userId}, config.secret);
     if (!token) {
       throw new ErrorHandler(404, 'Token is not created!');
     }

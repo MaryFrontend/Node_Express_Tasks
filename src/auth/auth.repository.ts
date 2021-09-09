@@ -24,9 +24,9 @@ const searchLogin = async (user: User): Promise< Boolean > => {
   try {
     const oneUser = await pool.query(queryString, [user.username]);
     if (!oneUser) {
-      return true;
+      return false;
     }
-    return false;
+    return true;
   } catch (error) {
     console.log(`Exception in auth.repository: ${error}`);
     throw error;

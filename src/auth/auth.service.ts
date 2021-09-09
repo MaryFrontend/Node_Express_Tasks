@@ -21,7 +21,7 @@ const signup = async (user: User): Promise< Boolean > => {
   }
 };
 
-const login = async (user: User): Promise<Object | false> => {
+const login = async (user: User): Promise<String | false> => {
   try {
     const loginUser = await searchLogin(user);
     if (!loginUser) {
@@ -33,11 +33,10 @@ const login = async (user: User): Promise<Object | false> => {
       throw new ErrorHandler(404, 'Wrong password!');
     }
 
-    const token = (user) =>
-      jwt.sing({ id: user._id }, config.secret, {
-        expiresIn: 86400,
-      });
-
+    let token = jwt.sign({ foo: 'bar' }, config.secret, { algorithm: 'RS256'});
+    if (!token) {
+      throw new ErrorHandler(404, 'Token is not created!');
+    }
     return token;
   } catch (error) {
     throw error;

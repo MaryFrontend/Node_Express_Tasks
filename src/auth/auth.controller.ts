@@ -23,6 +23,7 @@ authRouter.post('/login', async (req: Request, res: Response) => {
 
   try {
     await login(username);
+    await login(password);
     buildResponse(res, 200, 'User logged in successfully!');
   } catch (error) {
     if (error instanceof ErrorHandler) {

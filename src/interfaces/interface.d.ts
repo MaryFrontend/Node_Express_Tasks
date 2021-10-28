@@ -5,4 +5,9 @@ declare global {
     title: string;
     description: string;
   }
+  interface User {
+    userId?: number;
+    username: string;
+    password?: string;
+  }
 }

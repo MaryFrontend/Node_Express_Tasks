@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import express, { Response, Request } from 'express';
+import { authRouter } from './auth/auth.controller';
+import { authMiddleware } from './helpers/authMiddleware';
 import { handleError, ErrorHandler } from './helpers/error';
 import { taskRouter } from './tasks/tasks.controller';
-
 export const app = express();
 
 app.use(express.json());
@@ -16,7 +17,8 @@ app.get('/error', (_req: Request, _res: Response) => {
   throw new ErrorHandler(500, 'Internal server error');
 });
 
-app.use('/tasks', taskRouter);
+app.use('/tasks', authMiddleware, taskRouter);
+app.use('/auth', authRouter);
 
 app.use((err, _req: Request, res: Response, _next: express.NextFunction) => {
   handleError(err, res);
